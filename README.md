@@ -63,5 +63,4 @@ Your partner needs to do these steps on their machine to run the API locally:
 ## 🔑 Test Accounts
 - **Admin:** `admin@rsami.com` / `admin123`
 - **Customer:** `shoeb@example.com` / `user123`
-# rsami-movie-booking-app
-# rsami-movie-booking-app
+

@@ -8,7 +8,7 @@ Your partner needs to do these steps on their machine to run the API locally:
 
 1.  **Clone the Repository:**
     ```bash
-    git clone <YOUR_GITHUB_REPO_URL>
+    git clone https://github.com/Shoeb-K/rsami-movie-booking-app.git
     cd rsami-backend
     ```
 
@@ -63,4 +63,3 @@ Your partner needs to do these steps on their machine to run the API locally:
 ## 🔑 Test Accounts
 - **Admin:** `admin@rsami.com` / `admin123`
 - **Customer:** `shoeb@example.com` / `user123`
-

@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { createBooking, getUserBookings } from '../controllers/bookingController';
 import { getBookingStats as getReportStats } from '../controllers/reportController';
 
-import { authenticateJWT } from '../middleware/authMiddleware';
+import { authenticateJWT, requireAdmin } from '../middleware/authMiddleware';
 
 const router = Router();
 

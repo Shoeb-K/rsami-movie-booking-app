@@ -62,3 +62,34 @@ export const loginUser = async (req: Request, res: Response) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 };
+
+export const createAdmin = async (req: Request, res: Response) => {
+  try {
+    const { name, email, password } = req.body;
+
+    const existingUser = await prisma.user.findUnique({ where: { email } });
+    if (existingUser) {
+      return res.status(400).json({ error: 'User with this email already exists' });
+    }
+
+    const salt = await bcrypt.genSalt(10);
+    const password_hash = await bcrypt.hash(password, salt);
+
+    const user = await prisma.user.create({
+      data: {
+        name,
+        email,
+        password_hash,
+        role: 'ADMIN',
+      },
+    });
+
+    res.status(201).json({ 
+      message: 'Admin created successfully',
+      user: { id: user.id, name: user.name, email: user.email, role: user.role } 
+    });
+  } catch (error) {
+    console.error('Error in createAdmin:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};

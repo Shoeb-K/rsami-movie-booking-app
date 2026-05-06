@@ -1,5 +1,7 @@
 import { Router } from 'express';
-import { registerUser, loginUser } from '../controllers/authController';
+import { registerUser, loginUser, createAdmin } from '../controllers/authController';
+import { authenticateJWT, requireAdmin } from '../middleware/authMiddleware';
+
 
 const router = Router();
 
@@ -61,5 +63,37 @@ router.post('/register', registerUser);
  *         description: Invalid credentials
  */
 router.post('/login', loginUser);
+
+/**
+ * @swagger
+ * /api/auth/create-admin:
+ *   post:
+ *     summary: Create a new admin user (Admin Only)
+ *     tags: [Auth, Admin]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - name
+ *               - email
+ *               - password
+ *             properties:
+ *               name:
+ *                 type: string
+ *               email:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *     responses:
+ *       201:
+ *         description: Admin successfully created
+ */
+router.post('/create-admin', authenticateJWT, requireAdmin, createAdmin);
+
 
 export default router;

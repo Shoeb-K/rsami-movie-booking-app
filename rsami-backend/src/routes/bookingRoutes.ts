@@ -1,5 +1,7 @@
 import { Router } from 'express';
 import { createBooking, getUserBookings } from '../controllers/bookingController';
+import { getBookingStats as getReportStats } from '../controllers/reportController';
+
 import { authenticateJWT } from '../middleware/authMiddleware';
 
 const router = Router();
@@ -49,5 +51,20 @@ router.post('/', authenticateJWT, createBooking);
  *         description: A list of bookings.
  */
 router.get('/', authenticateJWT, getUserBookings);
+
+/**
+ * @swagger
+ * /api/bookings/stats:
+ *   get:
+ *     summary: Get booking statistics (Admin Only)
+ *     tags: [Admin, Bookings]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Booking statistics
+ */
+router.get('/stats', authenticateJWT, requireAdmin, getReportStats);
+
 
 export default router;

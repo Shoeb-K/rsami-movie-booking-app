@@ -48,6 +48,72 @@ class ApiService {
     }
     throw Exception(json.decode(response.body)['error'] ?? 'Booking failed');
   }
+
+  // Admin: Movies
+  static Future<void> createMovie(String token, Map<String, dynamic> movieData) async {
+    final response = await http.post(
+      Uri.parse('$baseUrl/movies'),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+      body: json.encode(movieData),
+    );
+    if (response.statusCode != 201) {
+      throw Exception(json.decode(response.body)['error'] ?? 'Failed to create movie');
+    }
+  }
+
+  static Future<void> updateMovie(String token, String movieId, Map<String, dynamic> movieData) async {
+    final response = await http.put(
+      Uri.parse('$baseUrl/movies/$movieId'),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+      body: json.encode(movieData),
+    );
+    if (response.statusCode != 200) {
+      throw Exception(json.decode(response.body)['error'] ?? 'Failed to update movie');
+    }
+  }
+
+  static Future<void> deleteMovie(String token, String movieId) async {
+    final response = await http.delete(
+      Uri.parse('$baseUrl/movies/$movieId'),
+      headers: {'Authorization': 'Bearer $token'},
+    );
+    if (response.statusCode != 204) {
+      throw Exception(json.decode(response.body)['error'] ?? 'Failed to delete movie');
+    }
+  }
+
+  // Admin: Showtimes
+  static Future<void> createShowtime(String token, Map<String, dynamic> showData) async {
+    final response = await http.post(
+      Uri.parse('$baseUrl/shows'),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+      body: json.encode(showData),
+    );
+    if (response.statusCode != 201) {
+      throw Exception(json.decode(response.body)['error'] ?? 'Failed to create showtime');
+    }
+  }
+
+  // Admin: Stats
+  static Future<Map<String, dynamic>> fetchAdminStats(String token) async {
+    final response = await http.get(
+      Uri.parse('$baseUrl/bookings/stats'),
+      headers: {'Authorization': 'Bearer $token'},
+    );
+    if (response.statusCode == 200) {
+      return json.decode(response.body);
+    }
+    throw Exception('Failed to load admin stats');
+  }
 }
 
 class SocketService {
